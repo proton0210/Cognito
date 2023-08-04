@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
+import { Auth } from "aws-amplify";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: "login" | "register";
@@ -32,30 +33,55 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
 
-  async function onSubmit(data: FormData) {
-    setIsLoading(true);
+  const signUp = async (email: string, password: string) => {
+    try {
+      await Auth.signUp({
+        username: email,
+        password,
+      });
+      console.log("sign up success!");
+    } catch (error) {
+      return toast({
+        title: "Something went wrong.",
+        description: "Your sign up request failed. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
-    // const signInResult = await signIn("email", {
-    //   email: data.email.toLowerCase(),
-    //   redirect: false,
-    //   callbackUrl: searchParams?.get("from") || "/dashboard",
-    // });
-    const signInResult: any = {};
-
-    setIsLoading(false);
-
-    if (!signInResult?.ok) {
+  const signIn = async (email: string, password: string) => {
+    try {
+      await Auth.signIn({
+        username: email,
+        password,
+      });
+      console.log("sign in success!");
+    } catch (error) {
       return toast({
         title: "Something went wrong.",
         description: "Your sign in request failed. Please try again.",
         variant: "destructive",
       });
     }
+  };
 
-    return toast({
-      title: "Check your email",
-      description: "We sent you a login link. Be sure to check your spam too.",
-    });
+  async function onSubmit(data: FormData) {
+    setIsLoading(true);
+
+    if (data?.email && data?.password) {
+      if (props.type === "register") {
+        await signUp(data.email, data.password);
+        toast({
+          title: "Success!",
+          description: "Email has been sent to your inbox.",
+          variant: "default",
+        });
+      } else {
+        await signIn(data.email, data.password);
+      }
+
+      setIsLoading(false);
+    }
   }
 
   return (
