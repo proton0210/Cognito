@@ -14,7 +14,9 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  type?: "login" | "register";
+}
 
 type FormData = z.infer<typeof userAuthSchema>;
 
@@ -27,7 +29,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     resolver: zodResolver(userAuthSchema),
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
+  const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
 
   async function onSubmit(data: FormData) {
@@ -71,7 +73,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading || isGitHubLoading}
+              disabled={isLoading || isGoogleLoading}
               {...register("email")}
             />
             {errors?.email && (
@@ -79,12 +81,34 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 {errors.email.message}
               </p>
             )}
+            <Label className="sr-only" htmlFor="password">
+              Password
+            </Label>
+            <Input
+              id="password"
+              placeholder="Password"
+              type="password"
+              autoComplete="new-password"
+              disabled={isLoading || isGoogleLoading}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters long",
+                },
+              })}
+            />
+            {errors?.password && (
+              <p className="px-1 text-xs text-red-600">
+                {errors.password.message}
+              </p>
+            )}
           </div>
           <button className={cn(buttonVariants())} disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Email
+            {props.type === "login" ? "Login" : "Register"}
           </button>
         </div>
       </form>
@@ -102,16 +126,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         type="button"
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
-          setIsGitHubLoading(true);
+          setIsGoogleLoading(true);
         }}
-        disabled={isLoading || isGitHubLoading}
+        disabled={isLoading || isGoogleLoading}
       >
-        {isGitHubLoading ? (
+        {isGoogleLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Icons.gitHub className="mr-2 h-4 w-4" />
         )}{" "}
-        Github
+        Google
       </button>
     </div>
   );
