@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookworm/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -34,11 +33,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   async function onSubmit(data: FormData) {
     setIsLoading(true);
 
-    const signInResult = await signIn("email", {
-      email: data.email.toLowerCase(),
-      redirect: false,
-      callbackUrl: searchParams?.get("from") || "/dashboard",
-    });
+    // const signInResult = await signIn("email", {
+    //   email: data.email.toLowerCase(),
+    //   redirect: false,
+    //   callbackUrl: searchParams?.get("from") || "/dashboard",
+    // });
+    const signInResult: any = {};
 
     setIsLoading(false);
 
@@ -103,7 +103,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
           setIsGitHubLoading(true);
-          signIn("github");
         }}
         disabled={isLoading || isGitHubLoading}
       >
