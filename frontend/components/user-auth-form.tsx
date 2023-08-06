@@ -14,7 +14,8 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
 import { Auth } from "aws-amplify";
-
+import Modal from "./Modal";
+import { VerificationCodeForm } from "./user-code-form";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: "login" | "register";
 }
@@ -31,6 +32,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
+  const [showModal, setShowModal] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
 
   const signUp = async (email: string, password: string) => {
@@ -76,7 +78,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           description: "Email has been sent to your inbox.",
           variant: "default",
         });
-      } else {
+        setShowModal(true);
+      }
+      if (props.type === "login") {
         await signIn(data.email, data.password);
       }
 
@@ -130,6 +134,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               </p>
             )}
           </div>
+
           <button className={cn(buttonVariants())} disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -163,6 +168,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         )}{" "}
         Google
       </button>
+      {showModal && <Modal />}
     </div>
   );
 }
