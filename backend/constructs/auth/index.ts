@@ -52,7 +52,7 @@ export const IdentityPool = (scope: Construct, userPool: Cognito.UserPool) => {
   identityPool.authenticatedRole.addToPrincipalPolicy(
     new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      actions: ["s3:GetObject"],
+      actions: ["s3:ListBucket", "s3:GetObject"],
       resources: [
         "arn:aws:s3:::cognito-tutorial-images",
         "arn:aws:s3:::cognito-tutorial-images/*",

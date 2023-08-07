@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useHasMounted from "@/hooks/useHasMounted";
 import useSWR from "swr";
 import Images from "@/components/Images";
+import { CognitoUser } from "@aws-amplify/auth";
 
 type pageProps = {
   title?: string;
@@ -18,21 +19,19 @@ const Page: React.FC<pageProps> = () => {
 
   if (error) {
     router.push("/login");
-    return <div>Redirecting to login...</div>; // Show a temporary message while redirecting
   }
 
   if (!hasMounted) {
     return null; // Render nothing until the authentication check is complete
   }
 
-  if (!data) {
-    router.push("/login");
-    return <div>Redirecting to login...</div>; // Show a temporary message while redirecting
+  if (data === null) {
+    router.push("/login"); // Show a temporary message while redirecting
   }
 
   return (
     <div>
-      <Images user={data} />
+      <Images />
     </div>
   ); // Render the content only when the user is authenticated
 };

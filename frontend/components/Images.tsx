@@ -1,34 +1,46 @@
 "use client";
 import React from "react";
 import { Storage } from "aws-amplify";
-import { CognitoUser } from "@aws-amplify/auth";
+import { S3ProviderListOutput } from "@aws-amplify/storage";
 
-import useSWR from "swr";
-import listImages from "@/utils/storage";
+const Images: React.FC = () => {
+  const [images, setImages] = React.useState<string[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-type ImagesProps = {
-  user: CognitoUser;
-};
+  React.useEffect(() => {
+    const listImages = async () => {
+      try {
+        // Use the Storage.list method to list images from the bucket
+        const imagesList: S3ProviderListOutput = await Storage.list("");
+        console.log("Images list", imagesList);
+        // Extract the keys from the list of images
+        const imageKeys = imagesList.results.map(
+          (image) => image.key
+        ) as string[];
 
-const Images: React.FC<ImagesProps> = ({ user }: { user: CognitoUser }) => {
-  console.log("Images", user);
-  const { data, error, isLoading } = useSWR("ListImages", listImages);
+        // Update the state with the image keys
+        setImages(imageKeys);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error listing images:", error);
+        setIsLoading(false);
+      }
+    };
 
-  if (error) {
-    return <div>error</div>;
-  }
+    listImages();
+  }, []);
 
   if (isLoading) {
-    return <div>loading...</div>;
-  }
-
-  if (data) {
-    console.log("data", data);
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
       <p>Image Component</p>
+      {/* Render the images */}
+      {images.map((imageKey, index) => (
+        <div key={index}>{imageKey}</div>
+      ))}
     </div>
   );
 };
