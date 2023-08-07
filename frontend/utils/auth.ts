@@ -1,5 +1,6 @@
-import axios from "axios";
 import { Auth } from "aws-amplify";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 type ResendConfCodeParameters = {
   username: string;
 };
@@ -68,8 +69,17 @@ export async function confirmSignUp(username: string, code: string) {
 
 export async function signIn(username: string, password: string) {
   try {
-    const user = await Auth.signIn(username, password);
-  } catch (error) {
-    console.log("error signing in", error);
-  }
+    await Auth.signIn(username, password);
+    console.log("successfully signed in");
+  } catch (error) {}
 }
+
+export const getCurrentSession = async () => {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    return user; // Return the user directly
+  } catch (error) {
+    console.log("error getting current user", error);
+    return null; // Return null if there's an error or the user is not authenticated
+  }
+};

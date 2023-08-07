@@ -16,6 +16,8 @@ import { Icons } from "@/components/icons";
 import Modal from "./Modal";
 import { signUp, signIn } from "@/utils/auth";
 import { VerificationCodeForm } from "./user-code-form";
+import { useRouter } from "next/navigation";
+
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: "login" | "register";
 }
@@ -34,6 +36,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [username, setUsername] = React.useState<string>("");
+  const router = useRouter();
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -51,6 +54,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       }
       if (props.type === "login") {
         await signIn(data.email, data.password);
+        router.push("/home");
       }
 
       setIsLoading(false);
