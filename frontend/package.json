@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-amplify/auth": "^5.6.0",
+    "@aws-amplify/storage": "^5.9.0",
+    "@aws-sdk/client-s3": "^3.385.0",
     "@headlessui/react": "^1.7.16",
     "@hookform/resolvers": "^3.1.1",
     "@radix-ui/react-accessible-icon": "^1.0.2",

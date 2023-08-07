@@ -1,4 +1,5 @@
 import { Auth } from "aws-amplify";
+import { CognitoUser } from "@aws-amplify/auth";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 type ResendConfCodeParameters = {
@@ -74,12 +75,22 @@ export async function signIn(username: string, password: string) {
   } catch (error) {}
 }
 
-export const getCurrentSession = async () => {
+export const getCurrentSession = async (): Promise<CognitoUser | null> => {
   try {
-    const user = await Auth.currentAuthenticatedUser();
+    const user = await Auth.currentAuthenticatedUser({ bypassCache: true });
     return user; // Return the user directly
   } catch (error) {
     console.log("error getting current user", error);
     return null; // Return null if there's an error or the user is not authenticated
+  }
+};
+
+export const getCredentials = async () => {
+  try {
+    const credentials = await Auth.currentCredentials();
+    console.log("credentials: ", credentials);
+    return credentials;
+  } catch (error) {
+    console.log("error getting credentials: ", error);
   }
 };

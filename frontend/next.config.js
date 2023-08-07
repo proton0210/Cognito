@@ -1,18 +1,15 @@
-const webpack = require("webpack");
-
 /** @type {import('next').NextConfig} */
 const config = {
   // …
-  webpack: (config, { isServer, nextRuntime }) => {
+  webpack: (config, { webpack, isServer, nextRuntime }) => {
     // Avoid AWS SDK Node.js require issue
     if (isServer && nextRuntime === "nodejs")
       config.plugins.push(
-        new webpack.IgnorePlugin({ resourceRegExp: /^aws-crt$/ })
+        new webpack.IgnorePlugin({
+          resourceRegExp: /^(aws-crt|@aws-sdk\/signature-v4-crt)$/,
+        })
       );
     return config;
-  },
-  experimental: {
-    serverActions: true,
   },
   // …
 };

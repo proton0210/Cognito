@@ -27,8 +27,12 @@ export default function RootLayout({
         userPoolId: process.env.NEXT_PUBLIC_USER_POOL_ID,
 
         userPoolWebClientId: process.env.NEXT_PUBLIC_CLIENT_POOL_ID,
-
-        mandatorySignIn: true,
+      },
+      Storage: {
+        AWSS3: {
+          bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
+          region: process.env.NEXT_PUBLIC_REGION,
+        },
       },
     });
   }, []);
