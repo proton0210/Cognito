@@ -13,8 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
-import { Auth } from "aws-amplify";
 import Modal from "./Modal";
+import { signUp, signIn } from "@/utils/auth";
 import { VerificationCodeForm } from "./user-code-form";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: "login" | "register";
@@ -33,39 +33,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
   const [showModal, setShowModal] = React.useState<boolean>(false);
-  const searchParams = useSearchParams();
-
-  const signUp = async (email: string, password: string) => {
-    try {
-      await Auth.signUp({
-        username: email,
-        password,
-      });
-      console.log("sign up success!");
-    } catch (error) {
-      return toast({
-        title: "Something went wrong.",
-        description: "Your sign up request failed. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const signIn = async (email: string, password: string) => {
-    try {
-      await Auth.signIn({
-        username: email,
-        password,
-      });
-      console.log("sign in success!");
-    } catch (error) {
-      return toast({
-        title: "Something went wrong.",
-        description: "Your sign in request failed. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
+  const [username, setUsername] = React.useState<string>("");
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -78,6 +46,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           description: "Email has been sent to your inbox.",
           variant: "default",
         });
+        setUsername(data.email);
         setShowModal(true);
       }
       if (props.type === "login") {
@@ -168,7 +137,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         )}{" "}
         Google
       </button>
-      {showModal && <Modal />}
+      {showModal && (
+        <Modal>
+          <VerificationCodeForm username={username} />
+        </Modal>
+      )}
     </div>
   );
 }
