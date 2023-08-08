@@ -12,7 +12,7 @@ export class BackendStack extends cdk.Stack {
 
     const userPool = UserPool(this);
     const userPoolClient = UserPoolClient(this, userPool);
-    const identityPool = IdentityPool(this, userPool);
+    const identityPool = IdentityPool(this, userPool, userPoolClient);
 
     new cdk.CfnOutput(this, "Image Bucket ARN", {
       description: "Image Bucket ARN",

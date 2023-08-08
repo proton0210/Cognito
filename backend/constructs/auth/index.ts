@@ -44,7 +44,11 @@ export const UserPoolClient = (
   return userPoolClient;
 };
 
-export const IdentityPool = (scope: Construct, userPool: Cognito.UserPool) => {
+export const IdentityPool = (
+  scope: Construct,
+  userPool: Cognito.UserPool,
+  client: Cognito.UserPoolClient
+) => {
   const identityPool = new CognitoIdentityPool(scope, "IdentityPool");
 
   // create authn role to retrieve images from bucket
@@ -63,7 +67,9 @@ export const IdentityPool = (scope: Construct, userPool: Cognito.UserPool) => {
   identityPool.addUserPoolAuthentication(
     new UserPoolAuthenticationProvider({
       userPool,
+      userPoolClient: client,
     })
   );
+
   return identityPool;
 };
