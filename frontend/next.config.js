@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const config = {
+  images: {
+    domains: ["localhost", "s3.amazonaws.com"],
+  },
   // …
   webpack: (config, { webpack, isServer, nextRuntime }) => {
     // Avoid AWS SDK Node.js require issue

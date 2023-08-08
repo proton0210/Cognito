@@ -13,7 +13,6 @@ type pageProps = {
 
 const Page: React.FC<pageProps> = () => {
   const router = useRouter();
-  const hasMounted = useHasMounted();
 
   const { data, error } = useSWR("authenticatedUser", getCurrentSession);
 
@@ -21,9 +20,6 @@ const Page: React.FC<pageProps> = () => {
     router.push("/login");
   }
 
-  if (!hasMounted) {
-    return null; // Render nothing until the authentication check is complete
-  }
 
   if (data === null) {
     router.push("/login"); // Show a temporary message while redirecting

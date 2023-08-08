@@ -10,8 +10,20 @@ export const ImageBucket = (scope: Construct) => {
     cors: [
       {
         allowedHeaders: ["*"],
-        allowedMethods: [S3.HttpMethods.GET],
+        allowedMethods: [
+          S3.HttpMethods.GET,
+          S3.HttpMethods.PUT,
+          S3.HttpMethods.POST,
+          S3.HttpMethods.DELETE,
+          S3.HttpMethods.HEAD,
+        ],
         allowedOrigins: ["*"],
+        exposedHeaders: [
+          "x-amz-server-side-encryption",
+          "x-amz-request-id",
+          "x-amz-id-2",
+          "ETag",
+        ],
       },
     ],
     accessControl: S3.BucketAccessControl.PRIVATE,

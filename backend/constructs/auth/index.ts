@@ -60,6 +60,7 @@ export const IdentityPool = (
       resources: [
         "arn:aws:s3:::cognito-tutorial-images",
         "arn:aws:s3:::cognito-tutorial-images/*",
+        "arn:aws:s3:::cognito-tutorial-images/public/*",
       ],
     })
   );
