@@ -28,7 +28,7 @@ export const VerificationCodeForm = ({
 }: VerificationCodeFormProps) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const inputRefs = Array.from({ length: 6 }, () =>
-    useRef<HTMLInputElement>(null)
+    React.createRef<HTMLInputElement>()
   );
 
   const handleFormSubmit = async (data: Record<string, string>) => {
