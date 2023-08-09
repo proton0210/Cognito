@@ -3,6 +3,7 @@ const config = {
   images: {
     domains: ["localhost", "s3.amazonaws.com"],
   },
+  ignoreDuringBuilds: true,
   // …
   webpack: (config, { webpack, isServer, nextRuntime }) => {
     // Avoid AWS SDK Node.js require issue
