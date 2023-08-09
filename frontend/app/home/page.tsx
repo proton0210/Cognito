@@ -7,7 +7,7 @@ import useSWR from "swr";
 import Images from "@/components/Images";
 import { CognitoUser } from "@aws-amplify/auth";
 
-const Page = () => {
+export default function Page() {
   const router = useRouter();
 
   const { data, error } = useSWR("authenticatedUser", getCurrentSession);
@@ -25,6 +25,4 @@ const Page = () => {
       <Images />
     </div>
   ); // Render the content only when the user is authenticated
-};
-
-export default Page;
+}
