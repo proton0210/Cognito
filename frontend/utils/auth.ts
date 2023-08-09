@@ -55,11 +55,6 @@ export const resendConfirmationCode = async ({
   }
 };
 
-type ConfirmSignUpParameters = {
-  username: string;
-  code: string;
-};
-
 export async function confirmSignUp(username: string, code: string) {
   try {
     await Auth.confirmSignUp(username, code);
@@ -74,6 +69,16 @@ export async function signIn(username: string, password: string) {
     console.log("successfully signed in");
   } catch (error) {}
 }
+
+export const signOut = async (): Promise<Boolean> => {
+  try {
+    await Auth.signOut();
+    return true;
+  } catch (error) {
+    console.log("error signing out: ", error);
+    throw console.error("error signing out: ", error);
+  }
+};
 
 export const getCurrentSession = async (): Promise<CognitoUser | null> => {
   try {

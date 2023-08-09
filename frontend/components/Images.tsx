@@ -2,10 +2,23 @@
 import React from "react";
 import { Storage } from "aws-amplify";
 import { S3ProviderListOutput } from "@aws-amplify/storage";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { signOut } from "@/utils/auth";
+
 const Images: React.FC = () => {
   const [images, setImages] = React.useState<string[]>([]);
   const [imageUrls, setImageUrls] = React.useState<string[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
+
+  const handleSignOut = async () => {
+    const res = await signOut();
+    if (res) {
+      window.location.reload();
+    } else {
+      console.log("Error signing out");
+    }
+  };
 
   React.useEffect(() => {
     const listImages = async () => {
@@ -47,12 +60,17 @@ const Images: React.FC = () => {
 
   return (
     <div>
-      <p>Pokemons From S3 Bucket</p>
-      
+      <div className="flex justify-center">
+        <h2></h2>
+      </div>
+
       {imageUrls.map(
         (imageUrl, index) =>
           index !== 0 && (
-            <div key={index}>
+            <div
+              key={index}
+              className="flex justify-center items-center flex-row"
+            >
               <img
                 src={imageUrl}
                 alt={`Image ${index}`}
@@ -61,6 +79,13 @@ const Images: React.FC = () => {
             </div>
           )
       )}
+      <button
+        type="button"
+        className={cn(buttonVariants({ variant: "outline" }))}
+        onClick={handleSignOut}
+      >
+        SignOut
+      </button>
     </div>
   );
 };
