@@ -7,11 +7,7 @@ import useSWR from "swr";
 import Images from "@/components/Images";
 import { CognitoUser } from "@aws-amplify/auth";
 
-type pageProps = {
-  title?: string;
-};
-
-const Page: React.FC<pageProps> = () => {
+const Page = () => {
   const router = useRouter();
 
   const { data, error } = useSWR("authenticatedUser", getCurrentSession);
@@ -19,7 +15,6 @@ const Page: React.FC<pageProps> = () => {
   if (error) {
     router.push("/login");
   }
-
 
   if (data === null) {
     router.push("/login"); // Show a temporary message while redirecting
