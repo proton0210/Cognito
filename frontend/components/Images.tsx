@@ -52,8 +52,6 @@ const Images: React.FC = () => {
     listImages();
   }, []);
 
-  console.table;
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

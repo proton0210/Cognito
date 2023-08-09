@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { confirmSignUp } from "@/utils/auth";
+import { useRouter } from "next/navigation";
 
 const verificationCodeSchema = z.object({
   digit1: z.string().length(1, "Digit must be exactly 1 character"),
@@ -27,6 +28,8 @@ export const VerificationCodeForm = ({
   username,
 }: VerificationCodeFormProps) => {
   const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
+
   const inputRefs = Array.from({ length: 6 }, () =>
     React.createRef<HTMLInputElement>()
   );
@@ -46,9 +49,8 @@ export const VerificationCodeForm = ({
     };
 
     const code = Object.values(formData).join("");
-    console.log("Verifying.." + username + " " + code);
-    await confirmSignUp(username, code);
-
+    const res: any = await confirmSignUp(username, code);
+    if (res) router.push("/login");
     setIsLoading(false);
   };
 
