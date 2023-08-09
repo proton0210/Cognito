@@ -61,16 +61,13 @@ const Images: React.FC = () => {
   return (
     <div>
       <div className="flex justify-center">
-        <h2></h2>
+        <h2>Loading Pokemon from S3</h2>
       </div>
 
       {imageUrls.map(
         (imageUrl, index) =>
           index !== 0 && (
-            <div
-              key={index}
-              className="flex justify-center items-center flex-row"
-            >
+            <div key={index} className="flex justify-center items-center ">
               <img
                 src={imageUrl}
                 alt={`Image ${index}`}
@@ -79,13 +76,15 @@ const Images: React.FC = () => {
             </div>
           )
       )}
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={handleSignOut}
-      >
-        SignOut
-      </button>
+      <div className="flex justify-center items-center ">
+        <button
+          type="button"
+          className={cn(buttonVariants({ variant: "outline" }))}
+          onClick={handleSignOut}
+        >
+          SignOut
+        </button>
+      </div>
     </div>
   );
 };
