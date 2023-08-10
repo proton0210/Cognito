@@ -42,20 +42,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   const [awsCredentials, setAwsCredentials] = React.useState<any>(null);
 
-  const handleAwsCredentialsObtained = (credentials: any) => {
-    setAwsCredentials(credentials);
-    // Now you can use awsCredentials to access AWS services
-    console.log("AWS credentials obtained:", credentials);
-  };
-
-  const handleGoogleSuccess = (response: any) => {
-    // Handle successful sign-in here
-    console.log("Google sign-in success:", response);
-  };
-
-  const handleGoogleFailure = (error: any) => {
-    // Handle sign-in failure here
-    console.error("Google sign-in error:", error);
+  const handleGoogleLogIn = async () => {
+    const response = await Auth.federatedSignIn({
+      provider: CognitoHostedUIIdentityProvider.Google,
+    });
+    if (response) router.push("/home");
   };
 
   async function onSubmit(data: FormData) {
