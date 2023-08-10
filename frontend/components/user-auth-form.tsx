@@ -17,7 +17,8 @@ import Modal from "./Modal";
 import { signUp, signIn } from "@/utils/auth";
 import { VerificationCodeForm } from "./user-code-form";
 import { useRouter } from "next/navigation";
-import GoogleSignInButton from "./ui/googleButton";
+import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import { Auth } from "aws-amplify";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: "login" | "register";
@@ -145,10 +146,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GoogleSignInButton
-        onAwsCredentialsObtained={handleAwsCredentialsObtained}
-        onFailure={handleGoogleFailure}
-      />
+      <button
+        className={cn(buttonVariants())}
+        onClick={() =>
+          Auth.federatedSignIn({
+            provider: CognitoHostedUIIdentityProvider.Google,
+          })
+        }
+        type="button"
+      >
+        Continue With Google
+      </button>
       {showModal && (
         <Modal>
           <VerificationCodeForm username={username} />
