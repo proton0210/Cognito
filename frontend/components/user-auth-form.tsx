@@ -39,6 +39,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [username, setUsername] = React.useState<string>("");
   const router = useRouter();
 
+  const [awsCredentials, setAwsCredentials] = React.useState<any>(null);
+
+  const handleAwsCredentialsObtained = (credentials: any) => {
+    setAwsCredentials(credentials);
+    // Now you can use awsCredentials to access AWS services
+    console.log("AWS credentials obtained:", credentials);
+  };
+
   const handleGoogleSuccess = (response: any) => {
     // Handle successful sign-in here
     console.log("Google sign-in success:", response);
@@ -137,7 +145,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GoogleSignInButton onFailure={handleGoogleFailure} />
+      <GoogleSignInButton
+        onAwsCredentialsObtained={handleAwsCredentialsObtained}
+        onFailure={handleGoogleFailure}
+      />
       {showModal && (
         <Modal>
           <VerificationCodeForm username={username} />

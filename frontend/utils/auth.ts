@@ -101,6 +101,3 @@ export const getCredentials = async () => {
 };
 
 
-export const handleGoogleLogin = async () => {
-  
-}

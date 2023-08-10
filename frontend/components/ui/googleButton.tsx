@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import GoogleLogin, {
   GoogleLoginResponse,
@@ -8,6 +10,9 @@ import {
   GetIdCommand,
   GetCredentialsForIdentityCommand,
 } from "@aws-sdk/client-cognito-identity";
+
+import { useRouter } from "next/navigation";
+
 
 interface GoogleSignInButtonProps {
   onAwsCredentialsObtained?: (credentials: any) => void;
@@ -20,6 +25,7 @@ const GoogleSignInButton: React.FC<GoogleSignInButtonProps> = ({
 }) => {
   const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT as string;
   const identityPoolId = process.env.NEXT_PUBLIC_IDENTITY_POOL_ID as string;
+  
 
   const handleGoogleSuccess = async (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
