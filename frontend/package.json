@@ -11,6 +11,8 @@
   "dependencies": {
     "@aws-amplify/auth": "^5.6.0",
     "@aws-amplify/storage": "^5.9.0",
+    "@aws-sdk/client-cognito-identity": "^3.388.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.388.0",
     "@aws-sdk/client-s3": "^3.385.0",
     "@headlessui/react": "^1.7.16",
     "@hookform/resolvers": "^3.1.1",
@@ -58,6 +60,7 @@
     "postcss": "8.4.27",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-google-login": "^5.2.2",
     "react-hook-form": "^7.45.2",
     "react-query": "^3.39.3",
     "swr": "^2.2.0",

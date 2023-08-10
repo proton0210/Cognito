@@ -99,3 +99,8 @@ export const getCredentials = async () => {
     console.log("error getting credentials: ", error);
   }
 };
+
+
+export const handleGoogleLogin = async () => {
+  
+}

@@ -17,6 +17,7 @@ import Modal from "./Modal";
 import { signUp, signIn } from "@/utils/auth";
 import { VerificationCodeForm } from "./user-code-form";
 import { useRouter } from "next/navigation";
+import GoogleSignInButton from "./ui/googleButton";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: "login" | "register";
@@ -37,6 +38,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [username, setUsername] = React.useState<string>("");
   const router = useRouter();
+
+  const handleGoogleSuccess = (response: any) => {
+    // Handle successful sign-in here
+    console.log("Google sign-in success:", response);
+  };
+
+  const handleGoogleFailure = (error: any) => {
+    // Handle sign-in failure here
+    console.error("Google sign-in error:", error);
+  };
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
@@ -126,21 +137,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsGoogleLoading(true);
-        }}
-        disabled={isLoading || isGoogleLoading}
-      >
-        {isGoogleLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </button>
+      <GoogleSignInButton onFailure={handleGoogleFailure} />
       {showModal && (
         <Modal>
           <VerificationCodeForm username={username} />
