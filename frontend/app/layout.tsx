@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Amplify } from "aws-amplify";
 import { awsConfig } from "@/aws-exports";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,6 +16,8 @@ const metadata: Metadata = {
 };
 
 function RootLayout({ children }: { children: React.ReactNode }) {
+  const { user, customState, getUser } = useAuth();
+  const router = useRouter();
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       // Only access window when running on the client side
@@ -48,8 +52,13 @@ function RootLayout({ children }: { children: React.ReactNode }) {
       console.log(updatedAwsConfig);
       Amplify.configure(updatedAwsConfig);
     }
+
+    getUser();
   }, []);
 
+  if (user) {
+    router.push("/home");
+  }
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>

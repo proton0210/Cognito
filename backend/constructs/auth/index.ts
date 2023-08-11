@@ -49,14 +49,7 @@ export const IdentityPool = (
   userPool: Cognito.UserPool,
   client: Cognito.UserPoolClient
 ) => {
-  const identityPool = new CognitoIdentityPool(scope, "IdentityPool", {
-    authenticationProviders: {
-      google: {
-        clientId:
-          "759835293815-qk0gstu311o00t1beelmo4mt8b8ad3di.apps.googleusercontent.com",
-      },
-    },
-  });
+  const identityPool = new CognitoIdentityPool(scope, "IdentityPool");
 
   // create authn role to retrieve images from bucket
 
