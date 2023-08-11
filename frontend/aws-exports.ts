@@ -11,8 +11,8 @@ export const awsConfig = {
   oauth: {
     domain: process.env.NEXT_PUBLIC_COGNITO_DOMAIN_NAME,
     redirectSignIn: [
-      "http://localhost:3000/",
-      "https://main.d3m5kt17r5818r.amplifyapp.com/",
+      "http://localhost:3000/home",
+      "https://main.d3m5kt17r5818r.amplifyapp.com/home",
     ],
     redirectSignOut: [
       "http://localhost:3000/",
