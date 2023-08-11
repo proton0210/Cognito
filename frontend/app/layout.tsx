@@ -17,7 +17,6 @@ const metadata: Metadata = {
 
 function RootLayout({ children }: { children: React.ReactNode }) {
   const { user, customState, getUser } = useAuth();
-  const router = useRouter();
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       // Only access window when running on the client side
@@ -56,9 +55,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
     getUser();
   }, []);
 
-  if (user) {
-    router.push("/home");
-  }
+  console.log(user);
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
