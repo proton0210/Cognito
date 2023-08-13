@@ -52,7 +52,6 @@ function RootLayout({ children }: { children: React.ReactNode }) {
 
       Amplify.configure(updatedAwsConfig);
     }
-    
   }, []);
 
   console.log("user", user);

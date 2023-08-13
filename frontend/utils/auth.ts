@@ -1,7 +1,9 @@
 import { Auth } from "aws-amplify";
 import { CognitoUser } from "@aws-amplify/auth";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+import {
+  CognitoIdentityClient,
+  GetCredentialsForIdentityCommand,
+} from "@aws-sdk/client-cognito-identity";
 type ResendConfCodeParameters = {
   username: string;
 };
@@ -100,4 +102,25 @@ export const getCredentials = async () => {
   }
 };
 
+export const exchangeToken = async (googleToken: string) => {
+  const client = new CognitoIdentityClient({
+    region: process.env.NEXT_PUBLIC_REGION,
+  });
 
+  const logins = {
+    "accounts.google.com": googleToken,
+  };
+
+  const command = new GetCredentialsForIdentityCommand({
+    IdentityId: process.env.NEXT_PUBLIC_IDENTITY_POOL_ID,
+    Logins: logins,
+  });
+
+  try {
+    const response = await client.send(command);
+    console.log("response: ", response);
+    return response;
+  } catch (error) {
+    console.log("error exchanging token: ", error);
+  }
+};

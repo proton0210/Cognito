@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
 import Modal from "./Modal";
-import { signUp, signIn } from "@/utils/auth";
+import { signUp, signIn, exchangeToken } from "@/utils/auth";
 import { VerificationCodeForm } from "./user-code-form";
 import { useRouter } from "next/navigation";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
@@ -40,13 +40,24 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [username, setUsername] = React.useState<string>("");
   const router = useRouter();
 
-  const [awsCredentials, setAwsCredentials] = React.useState<any>(null);
-
   const handleGoogleLogIn = async () => {
-    const response = await Auth.federatedSignIn({
-      provider: CognitoHostedUIIdentityProvider.Google,
-    });
-    if (response) router.push("/home");
+    try {
+      console.log("Clicked Google Log In");
+      const googleResponse = await Auth.federatedSignIn({
+        provider: CognitoHostedUIIdentityProvider.Google,
+      });
+      console.table(googleResponse);
+      const token = googleResponse.sessionToken;
+
+      if (token) {
+        const response = await exchangeToken(token);
+        console.log("response: ", response);
+      } else {
+        console.error("No access token found in the Google response.");
+      }
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
   };
 
   async function onSubmit(data: FormData) {
@@ -139,15 +150,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       </div>
       <button
         className={cn(buttonVariants())}
-        onClick={() =>
-          Auth.federatedSignIn({
-            provider: CognitoHostedUIIdentityProvider.Google,
-          })
-        }
+        onClick={handleGoogleLogIn}
         type="button"
       >
         Continue With Google
       </button>
+
       {showModal && (
         <Modal>
           <VerificationCodeForm username={username} />

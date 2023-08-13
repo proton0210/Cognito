@@ -76,6 +76,7 @@ export const IdentityPool = (
     new UserPoolAuthenticationProvider({
       userPool,
       userPoolClient: client,
+        
     })
   );
 
