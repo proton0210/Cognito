@@ -6,23 +6,22 @@ import useHasMounted from "@/hooks/useHasMounted";
 import useSWR from "swr";
 import Images from "@/components/Images";
 import { CognitoUser } from "@aws-amplify/auth";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Page() {
+  const { user, customState, getUser } = useAuth();
   const router = useRouter();
-
-  const { data, error } = useSWR("authenticatedUser", getCurrentSession);
-
-  if (error) {
-    router.push("/login");
-  }
-
-  if (data === null) {
-    router.push("/login"); // Show a temporary message while redirecting
-  }
+  React.useEffect(() => {
+    // Perform the navigation action only after rendering is complete
+    if (!user) {
+      // router.push("");
+    }
+  }, [user, router]);
 
   return (
     <div>
-      <Images />
+      {/* Render your content here */}
+      {user && <Images />}
     </div>
-  ); // Render the content only when the user is authenticated
+  );
 }
