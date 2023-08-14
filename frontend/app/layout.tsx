@@ -32,10 +32,8 @@ function RootLayout({ children }: { children: React.ReactNode }) {
       const [localRedirectSignIn, productionRedirectSignIn] =
         awsConfig.oauth.redirectSignIn;
 
-      console.log(productionRedirectSignIn);
       const [localRedirectSignOut, productionRedirectSignOut] =
         awsConfig.oauth.redirectSignOut;
-      console.log(productionRedirectSignOut);
 
       const updatedAwsConfig = {
         ...awsConfig,

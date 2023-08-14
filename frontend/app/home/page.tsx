@@ -1,27 +1,33 @@
 "use client";
-import { getCurrentSession } from "@/utils/auth";
-import React from "react";
-import { useRouter } from "next/navigation";
-import useHasMounted from "@/hooks/useHasMounted";
-import useSWR from "swr";
 import Images from "@/components/Images";
-import { CognitoUser } from "@aws-amplify/auth";
-import { useAuth } from "@/hooks/useAuth";
+import Auth from "@aws-amplify/auth";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 export default function Page() {
-  const { user, customState, getUser } = useAuth();
+  const [currentUser, setCurrentUser] = React.useState(null); // Initialize currentUser as null
+
   const router = useRouter();
+
   React.useEffect(() => {
-    // Perform the navigation action only after rendering is complete
-    if (!user) {
-      // router.push("");
-    }
-  }, [user, router]);
+    // Fetch the current authenticated user asynchronously
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        setCurrentUser(user);
+      } catch (error) {
+        setCurrentUser(null);
+        router.push("/login");
+      }
+    };
+
+    fetchCurrentUser();
+  }, [router]);
 
   return (
     <div>
       {/* Render your content here */}
-      {user && <Images />}
+      {currentUser && <Images />}
     </div>
   );
 }
