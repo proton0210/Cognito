@@ -1,7 +1,15 @@
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+const metadata: Metadata = {
+  title: "Learn AWS Cognito",
+  description:
+    "Learn how to provide Authenticated and UnAuthenticated access to your application using AWS Cognito User and Identity Pool and Google Social Login.",
+};
+
 const buyMeACoffeLink = "https://bmc.link/vidit0210";
 
 export default function Home() {
