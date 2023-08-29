@@ -1,10 +1,29 @@
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 import Link from "next/link";
+const buyMeACoffeLink = "https://bmc.link/vidit0210";
+
 export default function Home() {
   return (
     <div className="bg-white">
-      <header className="absolute inset-x-0 top-0 z-50"></header>
+      <header className="absolute inset-x-0 top-0 z-50">
+        <nav
+          className="flex items-center justify-between p-6 lg:px-8"
+          aria-label="Global"
+        >
+          <Link href={buyMeACoffeLink}>
+            <Image
+              src="/images/bmc-button.png"
+              alt="buymeacoffeeImage"
+              width={125}
+              height={125}
+              className="hover:mouse-pointer"
+            />
+          </Link>
+          {/* <p >About the Dev</p> */}
+        </nav>
+      </header>
 
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
@@ -37,7 +56,7 @@ export default function Home() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link
-                href="#"
+                href="https://vidit0210.notion.site/vidit0210/AWS-Cognito-11a8be8036544812906b3ccc83450d77"
                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Start Learning

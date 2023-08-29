@@ -57,9 +57,6 @@ export const IdentityPool = (
       },
     },
   });
-
-  // create authn role to retrieve images from bucket
-
   identityPool.authenticatedRole.addToPrincipalPolicy(
     new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
@@ -76,7 +73,6 @@ export const IdentityPool = (
     new UserPoolAuthenticationProvider({
       userPool,
       userPoolClient: client,
-        
     })
   );
 

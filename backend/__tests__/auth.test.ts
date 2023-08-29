@@ -2,7 +2,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import * as cognito from "@aws-sdk/client-cognito-identity-provider";
-import * as s3 from "@aws-sdk/client-s3";
 
 const cognitoClient = new cognito.CognitoIdentityProviderClient({
   region: "ap-south-1",
@@ -38,7 +37,7 @@ describe("Auth Test", () => {
   let clientId: string | undefined;
 
   beforeAll(() => {
-    const user = createUser(); // Assuming createUser() returns an object with email and password
+    const user = createUser();
     email = user.email;
     password = user.password;
     userPoolId = process.env.USER_POOL_ID;

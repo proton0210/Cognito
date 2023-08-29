@@ -1,4 +1,3 @@
-// Creating S3 Bucket for storing images
 
 import { aws_s3 as S3 } from "aws-cdk-lib";
 

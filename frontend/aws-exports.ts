@@ -12,11 +12,11 @@ export const awsConfig = {
     domain: process.env.NEXT_PUBLIC_COGNITO_DOMAIN_NAME,
     redirectSignIn: [
       "http://localhost:3000/home",
-      "https://main.d3m5kt17r5818r.amplifyapp.com/home",
+      "https://main.d3m5kt17r5818r.amplifyapp.com/home", // replace with your app URL when deployed
     ],
     redirectSignOut: [
       "http://localhost:3000",
-      "https://main.d3m5kt17r5818r.amplifyapp.com",
+      "https://main.d3m5kt17r5818r.amplifyapp.com", // replace with your app URL when deployed
     ],
     responseType: "code",
     scope: ["email", "profile", "openid"],
