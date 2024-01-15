@@ -29,7 +29,11 @@ export default function Home() {
               className="hover:mouse-pointer"
             />
           </Link>
-          {/* <p >About the Dev</p> */}
+          <Link href={"https://twitter.com/Vidit_210"} target="_blank">
+            <p className="mt-6 text-sm leading-8 text-gray-500 hover:text-gray-900">
+              Contact the Dev(Vidit Shah)
+            </p>
+          </Link>
         </nav>
       </header>
 
